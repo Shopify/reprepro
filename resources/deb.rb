@@ -3,4 +3,4 @@ default_action :add
 
 attribute :package, :kind_of => String
 attribute :architecture, :kind_of => String
-attribute :distribution, :kind_of => [String,Array]
+attribute :distribution, :kind_of => String
