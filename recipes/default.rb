@@ -20,9 +20,6 @@
 
 node.set['apache']['listen_ports'] = node['apache']['listen_ports'] | Array(node['reprepro']['listen_port'])
 
-include_recipe "build-essential"
-include_recipe "apache2"
-
 unless(node['reprepro']['disable_databag'])
   begin
     apt_repo = data_bag_item("reprepro", "main")
@@ -143,16 +140,4 @@ if(node['reprepro']['enable_repository_on_host'])
   end
 end
 
-template "#{node['apache']['dir']}/sites-available/apt_repo.conf" do
-  source "apt_repo.conf.erb"
-  mode 0644
-  variables(
-    :repo_dir => node['reprepro']['repo_dir']
-  )
-end
-
-apache_site "apt_repo.conf"
-
-apache_site "000-default" do
-  enable false
-end
+include_recipe 'reprepro::apache2' if node['reprepro']['enable_apache2']
