@@ -15,7 +15,7 @@ action :add do
     cwd ::File.dirname(new_resource.package)
     environment "GNUPGHOME" => node['reprepro']['gnupg_home']
     not_if do
-      ex = %x{reprepro -b #{node['reprepro']['repo_dir']} list #{new_resource.distribution} #{p_name}}
+      ex = %x{reprepro -b #{node['reprepro']['repo_dir']} -A #{new_resource.architecture} list #{new_resource.distribution} #{p_name}}
       ex.to_s.strip.split(' ').last == p_version
     end
   end
